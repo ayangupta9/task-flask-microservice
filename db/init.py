@@ -1,6 +1,5 @@
 import psycopg2
 
-
 def get_db_connection():
     conn = psycopg2.connect(
         dbname="d3dvhdesc9dcrk",
@@ -119,17 +118,17 @@ def get_all_tasks_of_user(user_id):
         return f"Failed to insert record into mobile table {error}"
 
 
-def update_task_status(task_id,new_status):
+def update_task_status(task_id, new_status):
     try:
         conn = get_db_connection()
         cur = conn.cursor()
 
         update_query = """UPDATE task SET task_type = %s WHERE id = %s RETURNING *"""
-        cur.execute(update_query,[new_status,task_id])
+        cur.execute(update_query, [new_status, task_id])
         update_result = cur.fetchone()
-        
+
         conn.commit()
-        
+
         cur.close()
         conn.close()
 
@@ -139,4 +138,3 @@ def update_task_status(task_id,new_status):
         cur.close()
         conn.close()
         return f"Failed to insert record into mobile table {error}"
-    
